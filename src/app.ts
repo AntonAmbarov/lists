@@ -13,11 +13,6 @@ const server: FastifyInstance = Fastify({
   logger: { level: 'info' }
 }).withTypeProvider<TypeBoxTypeProvider>();
 
-// server.register(AutoLoad, {
-//   dir: path.join(__dirname, 'schemas'),
-//   indexPattern: /^loader.js$/i
-// });
-
 await server.register(config);
 server.log.info('Config loaded %o', server.config);
 
@@ -41,8 +36,7 @@ server.register(AutoLoad, {
 const start = async () => {
   try {
     await server.listen({
-      port: server.config?.PORT,
-      // host: server.config?.HOST,
+      port: server.config?.port,
     });
     console.log(`Server running`);
   } catch (err) {

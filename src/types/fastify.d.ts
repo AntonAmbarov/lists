@@ -8,9 +8,9 @@ declare module 'fastify' {
             NODE_ENV: string;
         };
         config: {
-            DB_URL: string;
-            PORT: number;
-            NODE_ENV: string;
+            dbUrl: string;
+            port: number;
+            nodeEnv: string;
         };
     }
 }
