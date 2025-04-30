@@ -5,13 +5,12 @@ import Fastify, { FastifyInstance } from 'fastify';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import AutoLoad from '@fastify/autoload';
 import config from './configs/config';
+import { serverOpts } from './configs/serverOptions'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const server: FastifyInstance = Fastify({
-  logger: { level: 'info' }
-}).withTypeProvider<TypeBoxTypeProvider>();
+const server: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypeProvider>();
 
 await server.register(config);
 server.log.info('Config loaded %o', server.config);
