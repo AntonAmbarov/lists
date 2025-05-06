@@ -13,20 +13,20 @@ const __dirname = dirname(__filename);
 const server: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypeProvider>();
 
 await server.register(config);
-server.log.info('Config loaded %o', server.config);
+server.log.info('Конфиг сервера загружен %o', server.config);
 
 server.register(AutoLoad, {
   dir: path.join(__dirname, 'plugins'),
   ignorePattern: /.*.no-load\.js/,
   indexPattern: /^index$/i,
-  options: server.config, //обращаемся к декоратору из .configs/config
+  options: server.config.server, //обращаемся к декоратору из .configs/config
 });
 
 server.register(AutoLoad, {
-  dir: path.join(__dirname, 'routes'),
-  indexPattern: /.*routes(\.js|\.cjs)$/i,
-  ignorePattern: /.*\.js/,
-  autoHooksPattern: /.*hooks(\.js|\.cjs)$/i,
+  dir: path.join(__dirname, 'modules'),
+  indexPattern: /.*routes(\.js)$/i,
+  // ignorePattern: /.*\.ts/,
+  autoHooksPattern: /.*hooks(\.js)$/i,
   autoHooks: true,
   cascadeHooks: true,
   options: {}
@@ -35,9 +35,9 @@ server.register(AutoLoad, {
 const start = async () => {
   try {
     await server.listen({
-      port: server.config?.port,
+      port: server.config?.server?.port,
     });
-    console.log(`Server running`);
+    server.log.info('Сервер запущен')
   } catch (err) {
     server.log.error(err);
     process.exit(1);

@@ -1,5 +1,5 @@
-import { ICard } from "../types/domain/Card";
-import { Status } from "../types/shared/status";
+import { ICard } from "../../types/domain/Card";
+import { Status } from "../../types/shared/status";
 
 export class Card implements ICard {
     constructor(

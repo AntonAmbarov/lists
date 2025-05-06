@@ -1,6 +1,6 @@
-import { ICardRepostories } from "../types/repositories/ICardRepositories";
-import { ICard } from "../types/domain/Card";
-import { IDatabase } from '../types/shared/db';
+import { ICardRepostories } from "./ICardRepositories";
+import { ICard } from "../../types/domain/Card";
+import { IDatabase } from '../../types/shared/db';
 
 
 export class CardsReposotory implements ICardRepostories {

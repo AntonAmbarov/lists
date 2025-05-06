@@ -1,4 +1,4 @@
-import { ICard } from "../domain/Card";
+import { ICard } from "../../types/domain/Card";
 
 export interface ICardRepostories {
     setCard: (value: ICard) => void,
