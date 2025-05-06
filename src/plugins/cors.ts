@@ -1,10 +1,8 @@
-import fp from 'fastify-plugin';
 import cors from '@fastify/cors';
+import { FastifyPluginCallback } from 'fastify';
 
-export default fp(
-    async function (app, _opts) {
-        app.register(cors, {
-            origin: true
-        });
-    }
-)
+export const corsPlugin: FastifyPluginCallback = async function (app, _opts) {
+    app.register(cors, {
+        origin: true
+    });
+}

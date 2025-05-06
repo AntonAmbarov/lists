@@ -1,6 +1,6 @@
-import fp from 'fastify-plugin';
+import { FastifyPluginCallback } from 'fastify';
 
-export default fp(
+export const setErrorHandlerPlugin: FastifyPluginCallback =
     function (app, _opts) {
         app.setErrorHandler((err, req, reply) => {
             if (reply.statusCode >= 500) {
@@ -11,4 +11,4 @@ export default fp(
             req.log.info({ req, res: reply, err: err }, err?.message);
             reply.send(err);
         });
-    });
+    };

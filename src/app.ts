@@ -1,45 +1,43 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
 import Fastify, { FastifyInstance } from 'fastify';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
-import AutoLoad from '@fastify/autoload';
 import config from './configs/config';
 import { serverOpts } from './configs/serverOptions'
+import { corsPlugin } from './plugins/cors';
+import { setErrorHandlerPlugin } from './plugins/error-handler';
+import { cardRoutes } from './modules/card/cards.routes';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const app: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypeProvider>();
 
-const server: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypeProvider>();
+// Регистрация плагинов
+await app.register(config);
+app.log.info('Config loaded %o', app.config);
+app.register(corsPlugin);
+app.register(setErrorHandlerPlugin);
 
-await server.register(config);
-server.log.info('Конфиг сервера загружен %o', server.config);
+// Регистрация роутов
+app.register(cardRoutes, { prefix: 'api/card' });
 
-server.register(AutoLoad, {
-  dir: path.join(__dirname, 'plugins'),
-  ignorePattern: /.*.no-load\.js/,
-  indexPattern: /^index$/i,
-  options: server.config.server, //обращаемся к декоратору из .configs/config
-});
+// Root rout
+app.get('/', (req, reply) => {
+  reply.status(200).send({ message: 'Привет. Все ОК!' })
+})
 
-server.register(AutoLoad, {
-  dir: path.join(__dirname, 'modules'),
-  indexPattern: /.*routes(\.js)$/i,
-  // ignorePattern: /.*\.ts/,
-  autoHooksPattern: /.*hooks(\.js)$/i,
-  autoHooks: true,
-  cascadeHooks: true,
-  options: {}
-});
+app.get('/cards', (req, reply) => {
+  req.log.info('Роут cards')
+  app.log.info('Еще тест лога но через app.log')
+  reply.status(200).send('Ответ роута /cards')
+})
+
+// Старт сервера
 
 const start = async () => {
   try {
-    await server.listen({
-      port: server.config?.server?.port,
+    await app.listen({
+      port: app.config?.port,
     });
-    server.log.info('Сервер запущен')
+    console.log(`Server running`);
   } catch (err) {
-    server.log.error(err);
+    app.log.error(err);
     process.exit(1);
   }
 };
