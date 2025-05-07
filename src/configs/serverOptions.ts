@@ -7,7 +7,7 @@ export const serverOpts = {
         }
     },
     logger: {
-        level: 'info',
+        level: 'debug',
         transport: {
             target: 'pino-pretty',
             options: {

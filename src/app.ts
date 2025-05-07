@@ -9,19 +9,16 @@ import { cardRoutes } from './modules/card/cards.routes';
 const app: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypeProvider>();
 
 // Регистрация плагинов
-await app.register(config);
-app.log.info('Конфиг сервера загружен %o', app.config);
+await app.register(config).after(() => app.log.info('Конфиг сервера загружен %o', app.config));
 app.register(corsPlugin);
-app.register(setErrorHandlerPlugin).after((err) => {
-  if (err) {
-    console.error('Плагин setErrorHandlerPlugin не зарегистрирован:', err);
-  } else {
-    console.log('Плагин setErrorHandlerPlugin зарегистрирован');
-  }
+
+// Обработка ошибок
+app.setErrorHandler((err, req, reply) => {
+  setErrorHandlerPlugin(app, err, req, reply)
 });
 
 // Регистрация роутов
-app.register(cardRoutes);
+await app.register(cardRoutes);
 
 // Root rout
 app.get('/', (req, reply) => {
@@ -36,7 +33,7 @@ const start = async () => {
     });
     app.log.info('Сервер запущен')
   } catch (err) {
-    app.log.error('Сервер не запустился', err);
+    app.log.error(err);
     process.exit(1);
   }
 };

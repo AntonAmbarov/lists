@@ -16,7 +16,6 @@ const optsRoute = {
 
 export const cardRoutes = async (app: FastifyInstance, opts: FastifyPluginOptions) => {
     app.get('/cards', optsRoute, async (req, reply) => {
-        req.log.info('Роут cards')
-        reply.status(200).send({ hello: 'Привет' })
+        throw new Error('тестовая ошибка')
     })
 }
