@@ -37,6 +37,7 @@ export class CustomLogger implements FastifyBaseLogger {
     };
 
     info(obj: unknown, msg = '', ...args: unknown[]) {
+        console.log('xoxoxoxoxox')
         this.logger.info(obj, msg, ...args)
     };
 
@@ -51,4 +52,7 @@ export class CustomLogger implements FastifyBaseLogger {
     silent(obj: unknown, msg = '', ...args: unknown[]) {
         this.logger.silent(obj, msg, ...args)
     };
+    himan(obj: unknown, msg = '', ...args: unknown[]) {
+        this.logger.info('ХОХОХОХОХОХО')
+    }
 }

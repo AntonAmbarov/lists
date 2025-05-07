@@ -10,34 +10,33 @@ const app: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypePro
 
 // Регистрация плагинов
 await app.register(config);
-app.log.info('Config loaded %o', app.config);
+app.log.info('Конфиг сервера загружен %o', app.config);
 app.register(corsPlugin);
-app.register(setErrorHandlerPlugin);
+app.register(setErrorHandlerPlugin).after((err) => {
+  if (err) {
+    console.error('Плагин setErrorHandlerPlugin не зарегистрирован:', err);
+  } else {
+    console.log('Плагин setErrorHandlerPlugin зарегистрирован');
+  }
+});
 
 // Регистрация роутов
-app.register(cardRoutes, { prefix: 'api/card' });
+app.register(cardRoutes);
 
 // Root rout
 app.get('/', (req, reply) => {
   reply.status(200).send({ message: 'Привет. Все ОК!' })
 })
 
-app.get('/cards', (req, reply) => {
-  req.log.info('Роут cards')
-  app.log.info('Еще тест лога но через app.log')
-  reply.status(200).send('Ответ роута /cards')
-})
-
 // Старт сервера
-
 const start = async () => {
   try {
     await app.listen({
       port: app.config?.port,
     });
-    console.log(`Server running`);
+    app.log.info('Сервер запущен')
   } catch (err) {
-    app.log.error(err);
+    app.log.error('Сервер не запустился', err);
     process.exit(1);
   }
 };

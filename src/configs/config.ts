@@ -16,11 +16,9 @@ export default fp(
             })
 
             app.decorate('config', {
-                server: {
-                    dbUrl: app.secrets.DB_URL,
-                    port: app.secrets.PORT,
-                    nodeEnv: app.secrets.NODE_ENV,
-                },
+                dbUrl: app.secrets.DB_URL,
+                port: app.secrets.PORT,
+                nodeEnv: app.secrets.NODE_ENV,
             })
         } catch (err) {
             app.log.error('Ошибка в конфиге: ', err);

@@ -1,4 +1,4 @@
 import { CustomLogger } from './logger.service';
-import { loggerOptions } from '../../configs/logger.options';
+import { loggerOptions } from './logger.options';
 
 export const customLogger = new CustomLogger(loggerOptions);

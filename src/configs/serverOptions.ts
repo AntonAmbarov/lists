@@ -1,12 +1,19 @@
-import { customLogger } from "../modules/logger/logger.no-load"
-
 export const serverOpts = {
-    // ajv: {
-    //     customOptions: {
-    //         removeAdditional: 'all'
-    //     }
-    // },
+    ajv: {
+        customOptions: {
+            removeAdditional: 'all' as const,
+            allErrors: false,
+            coerceTypes: 'array' as const,
+        }
+    },
     logger: {
-        level: 'info'
+        level: 'info',
+        transport: {
+            target: 'pino-pretty',
+            options: {
+                colorize: true,
+                translateTime: 'HH:MM:ss Z',
+            },
+        },
     }
 }
