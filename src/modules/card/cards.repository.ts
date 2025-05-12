@@ -1,5 +1,5 @@
-import { ICardRepostories } from "./ICardRepositories";
-import { ICard } from "../../types/domain/Card";
+import { ICardRepostories } from "./types/cards.repository.intrerface";
+import { ICard } from "./types/card.dto";
 import { IDatabase } from '../../types/shared/db';
 
 
@@ -8,16 +8,16 @@ export class CardsReposotory implements ICardRepostories {
         this.db = db;
     }
 
-    setCard(value: ICard): void {
+    create(value: ICard): void {
         const { cards } = this.db;
         cards.push(value);
     };
 
-    getCards(): Array<ICard> {
+    getAll(): Array<ICard> {
         return this.db.cards;
     };
 
-    updateCard(id: number, value: ICard): void {
+    update(id: number, value: ICard): void {
         const cardIndex = this.db.cards.findIndex((card: ICard): boolean => id === card.id);
 
         if (cardIndex === -1) {
@@ -27,7 +27,7 @@ export class CardsReposotory implements ICardRepostories {
         this.db.cards[cardIndex] = value;
     };
 
-    deleteCard(id: number): void {
+    delete(id: number): void {
         const { cards } = this.db;
         const currentCards = cards.filter((card: ICard): boolean => id !== card.id);
         this.db.cards = currentCards;

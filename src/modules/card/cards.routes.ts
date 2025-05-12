@@ -1,21 +1,14 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify"
-
-const optsRoute = {
-    schema: {
-        response: {
-            200: {
-                type: 'object',
-                properties: {
-                    hello: { type: 'string' }
-                }
-            }
-        },
-
-    }
-}
+import { cardsSchema } from "./types/cards.schema";
+import { UserServices } from "./cards.service";
 
 export const cardRoutes = async (app: FastifyInstance, opts: FastifyPluginOptions) => {
-    app.get('/cards', optsRoute, async (req, reply) => {
-        throw new Error('тестовая ошибка')
+    app.get('/cards', {
+        schema: cardsSchema
+    }, async (req, reply) => {
+        const service = new UserServices()
+        const data = service.getCards();
+        app.log.info(data);
+        reply.send(data);
     })
 }
