@@ -3,14 +3,29 @@ import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import config from './configs/config';
 import { serverOpts } from './configs/serverOptions'
 import { corsPlugin } from './plugins/cors';
-import { setErrorHandlerPlugin } from './plugins/error-handler';
+import { setErrorHandlerPlugin } from './plugins/_error-handler';
 import { cardRoutes } from './modules/card/cards.routes';
+// import awilixPlugin from './plugins/awilix';
+import { fastifyAwilixPlugin } from "@fastify/awilix";
+import { createContainer } from './common/container';
 
 const app: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypeProvider>();
 
-// Регистрация плагинов
+// Загрузка конфигурации
 await app.register(config).after(() => app.log.info('Конфиг сервера загружен %o', app.config));
+
+// Регистрация плагинов
 app.register(corsPlugin);
+// app.register(awilixPlugin);
+app.register(fastifyAwilixPlugin, {
+  disposeOnClose: true,
+  disposeOnResponse: true,
+  strictBooleanEnforced: true
+})
+
+// Создание DI контейнера
+
+await createContainer(app);
 
 // Обработка ошибок
 app.setErrorHandler((err, req, reply) => {

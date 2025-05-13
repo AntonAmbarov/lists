@@ -1,7 +1,7 @@
 import { IDatabase } from "../types/shared/db";
 
-export const mockData: IDatabase = {
-    cards: [
+export class MockData implements IDatabase {
+    public cards: [
         {
             id: 1,
             title: "The Art of Programming",
@@ -98,5 +98,5 @@ export const mockData: IDatabase = {
             author: "Unity Master",
             status: "active"
         }
-    ],
+    ]
 }
