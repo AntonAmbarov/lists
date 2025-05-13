@@ -1,10 +1,12 @@
 import { ICardRepostory } from "./types/cards.repository.intrerface";
 import { ICard } from "./types/card.dto";
-import { IDatabase } from '../../types/shared/db';
+import { IDatabase } from "../../types/shared/db";
 
 
 export class CardRepository implements ICardRepostory {
-    constructor(private dataBase: IDatabase) {
+    private dataBase: IDatabase
+
+    constructor({ dataBase }: { dataBase: IDatabase }) {
         this.dataBase = dataBase;
     }
 

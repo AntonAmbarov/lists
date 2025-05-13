@@ -2,7 +2,6 @@ import { FastifyError, FastifyInstance, FastifyReply, FastifyRequest } from 'fas
 
 export const setErrorHandlerPlugin = (app: FastifyInstance, err: FastifyError, req: FastifyRequest, reply: FastifyReply) => {
 
-    console.log('Сработало')
     app.log.error({
         url: req.url,
         method: req.method,

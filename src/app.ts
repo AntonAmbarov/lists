@@ -8,6 +8,11 @@ import { cardRoutes } from './modules/card/cards.routes';
 // import awilixPlugin from './plugins/awilix';
 import { fastifyAwilixPlugin } from "@fastify/awilix";
 import { createContainer } from './common/container';
+import { diContainer } from "@fastify/awilix";
+import { asClass } from "awilix";
+import { CardRepository } from "../src/modules/card/cards.repository";
+import { DataBase } from "../src/db/mockData";
+import { CardService } from "../src/modules/card/cards.service";
 
 const app: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypeProvider>();
 
@@ -25,7 +30,12 @@ app.register(fastifyAwilixPlugin, {
 
 // Создание DI контейнера
 
-await createContainer(app);
+// await createContainer(app);
+diContainer.register({
+  dataBase: asClass(DataBase).singleton(),
+  cardRepository: asClass(CardRepository).singleton(),
+  cardService: asClass(CardService).singleton(),
+});
 
 // Обработка ошибок
 app.setErrorHandler((err, req, reply) => {
