@@ -1,8 +1,9 @@
 import cors from '@fastify/cors';
-import { FastifyPluginCallback } from 'fastify';
+import { FastifyPluginAsync } from 'fastify';
+import fp from 'fastify-plugin';
 
-export const corsPlugin: FastifyPluginCallback = async function (app, _opts) {
+export const corsPlugin: FastifyPluginAsync = fp(async function (app, _opts) {
     app.register(cors, {
         origin: true
     });
-}
+})

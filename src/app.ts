@@ -5,14 +5,7 @@ import { serverOpts } from './configs/serverOptions'
 import { corsPlugin } from './plugins/cors';
 import { setErrorHandlerPlugin } from './plugins/_error-handler';
 import { cardRoutes } from './modules/card/cards.routes';
-// import awilixPlugin from './plugins/awilix';
-import { fastifyAwilixPlugin } from "@fastify/awilix";
-import { createContainer } from './common/container';
-import { diContainer } from "@fastify/awilix";
-import { asClass } from "awilix";
-import { CardRepository } from "../src/modules/card/cards.repository";
-import { DataBase } from "../src/db/mockData";
-import { CardService } from "../src/modules/card/cards.service";
+import { awilixPlugin } from './plugins/awilix';
 
 const app: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypeProvider>();
 
@@ -20,22 +13,8 @@ const app: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypePro
 await app.register(config).after(() => app.log.info('Конфиг сервера загружен %o', app.config));
 
 // Регистрация плагинов
-app.register(corsPlugin);
-// app.register(awilixPlugin);
-app.register(fastifyAwilixPlugin, {
-  disposeOnClose: true,
-  disposeOnResponse: true,
-  strictBooleanEnforced: true
-})
-
-// Создание DI контейнера
-
-// await createContainer(app);
-diContainer.register({
-  dataBase: asClass(DataBase).singleton(),
-  cardRepository: asClass(CardRepository).singleton(),
-  cardService: asClass(CardService).singleton(),
-});
+await app.register(corsPlugin);
+await app.register(awilixPlugin);
 
 // Обработка ошибок
 app.setErrorHandler((err, req, reply) => {
