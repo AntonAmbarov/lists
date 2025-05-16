@@ -4,10 +4,9 @@ import config from './configs/config';
 import { serverOpts } from './configs/serverOptions'
 import { corsPlugin } from './plugins/cors';
 import { setErrorHandlerPlugin } from './plugins/_error-handler';
-import { cardRoutes } from './modules/card/cards.routes';
+import { cardRoute } from './modules/card/cards.route';
 import { awilixPlugin } from './plugins/awilix';
 import { databaseConnecting } from './plugins/database';
-import { PrismaClient } from '@prisma/client';
 
 const app: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypeProvider>();
 
@@ -25,7 +24,7 @@ app.setErrorHandler((err, req, reply) => {
 });
 
 // Регистрация роутов
-await app.register(cardRoutes);
+await app.register(cardRoute);
 
 // Root rout
 app.get('/', (req, reply) => {

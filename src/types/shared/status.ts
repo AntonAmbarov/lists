@@ -1,1 +1,1 @@
-export type Status = 'active' | 'moderation';
+export type Status = 'ACTIVE' | 'MODERATION';

@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  // output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -9,15 +8,28 @@ datasource db {
 }
 
 model UserModel {
-  id        Int         @id @default(autoincrement())
-  createdAt DateTime    @default(now())
-  userName  String      @unique
-  email     String      @unique
-  password  String
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  userName     String        @unique
+  email        String        @unique
+  password     String
+  role         Role          @default(USER)
+  CardModel    CardModel[]
+  ListModel    ListModel[]
+  ProfileModel ProfileModel?
+}
+
+model ProfileModel {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   firstName String?
   lastname  String?
-  role      Role        @default(USER)
-  Card      CardModel[]
+  bio       String?
+  avatar    String?
+  user      UserModel @relation(fields: [userId], references: [id])
+  userId    Int       @unique
 }
 
 model CardModel {
@@ -25,11 +37,41 @@ model CardModel {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   title       String
-  img         String
-  description String
+  img         String?
+  description String?
   author      UserModel @relation(fields: [authorId], references: [id])
   authorId    Int
   status      Status
+  externalId  String?
+  // metadata    String[]
+}
+
+model CategoryModel {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  name      String      @unique
+  ListModel ListModel[]
+}
+
+model ListModel {
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  title       String
+  img         String?
+  description String?
+  author      UserModel     @relation(fields: [authorId], references: [id])
+  authorId    Int
+  category    CategoryModel @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  status      Status
+}
+
+model VoteModel {
+  id       Int       @id @default(autoincrement())
+  createAt DateTime  @default(now())
+  value    ValueVote
 }
 
 enum Status {
@@ -41,4 +83,9 @@ enum Role {
   USER
   ADMIN
   SUPERADMIN
+}
+
+enum ValueVote {
+  UP
+  DOWN
 }

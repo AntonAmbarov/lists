@@ -16,7 +16,7 @@ export class CardRepository implements ICardRepostory {
                 title: 'Первая карточка',
                 img: '/img/1.jpg',
                 description: 'Детальное описание на несколько строк',
-                authorId: 1,
+                // authorId: 1,
                 status: 'MODERATION'
             }
         });
