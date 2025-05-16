@@ -6,6 +6,8 @@ import { corsPlugin } from './plugins/cors';
 import { setErrorHandlerPlugin } from './plugins/_error-handler';
 import { cardRoutes } from './modules/card/cards.routes';
 import { awilixPlugin } from './plugins/awilix';
+import { databaseConnecting } from './plugins/database';
+import { PrismaClient } from '@prisma/client';
 
 const app: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypeProvider>();
 
@@ -15,6 +17,7 @@ await app.register(config).after(() => app.log.info('Конфиг сервера
 // Регистрация плагинов
 await app.register(corsPlugin);
 await app.register(awilixPlugin);
+await app.register(databaseConnecting);
 
 // Обработка ошибок
 app.setErrorHandler((err, req, reply) => {

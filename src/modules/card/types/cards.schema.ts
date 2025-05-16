@@ -1,6 +1,6 @@
-import { Type } from "@sinclair/typebox";
+import { Type, Static } from "@sinclair/typebox";
 
-export const cardSchema = Type.Object({
+export const CardSchema = Type.Object({
     id: Type.Number(),
     title: Type.String(),
     img: Type.String(),
@@ -16,3 +16,5 @@ export const cardSchema = Type.Object({
         )
     ),
 })
+
+export type CardDTO = Static<typeof CardSchema>;

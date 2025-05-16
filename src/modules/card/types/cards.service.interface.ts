@@ -1,5 +1,8 @@
-import { ICard } from "./card.dto";
+import { CardModel } from "@prisma/client";
+import { CardDTO } from "./cards.schema";
 
 export interface ICardService {
-    getCards: () => Array<ICard>;
+    getCards: () => Promise<Array<CardModel>>;
+
+    addCard: (data: CardDTO) => Promise<CardModel>;
 }

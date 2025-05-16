@@ -1,37 +1,32 @@
 import { ICardRepostory } from "./types/cards.repository.intrerface";
-import { ICard } from "./types/card.dto";
-import { IDatabase } from "../../types/shared/db";
-
+import { CardDTO } from "./types/cards.schema";
+import { IPrismaService } from '../database/prisma.service.interface';
+import { CardModel } from "@prisma/client";
 
 export class CardRepository implements ICardRepostory {
-    private dataBase: IDatabase
+    private prisma: IPrismaService;
 
-    constructor({ dataBase }: { dataBase: IDatabase }) {
-        this.dataBase = dataBase;
+    constructor({ prisma }: { prisma: IPrismaService }) {
+        this.prisma = prisma;
     }
 
-    create(value: ICard): void {
-        const { cards } = this.dataBase;
-        cards.push(value);
+    async create(date: CardDTO): Promise<CardModel> {
+        return this.prisma.client.cardModel.create({
+            data: {
+                title: 'Первая карточка',
+                img: '/img/1.jpg',
+                description: 'Детальное описание на несколько строк',
+                authorId: 1,
+                status: 'MODERATION'
+            }
+        });
     };
 
-    getAll(): Array<ICard> {
-        return this.dataBase.cards;
+    async getAll(): Promise<Array<CardModel>> {
+        return this.prisma.client.cardModel.findMany();
     };
 
-    update(id: number, value: ICard): void {
-        const cardIndex = this.dataBase.cards.findIndex((card: ICard): boolean => id === card.id);
+    async update(id: number, value: CardDTO): Promise<void> { };
 
-        if (cardIndex === -1) {
-            throw new Error('Карточка не найдена');
-        }
-
-        this.dataBase.cards[cardIndex] = value;
-    };
-
-    delete(id: number): void {
-        const { cards } = this.dataBase;
-        const currentCards = cards.filter((card: ICard): boolean => id !== card.id);
-        this.dataBase.cards = currentCards;
-    };
+    async delete(id: number): Promise<void> { };
 }

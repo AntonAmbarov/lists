@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model UserModel {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  userName  String      @unique
+  email     String      @unique
+  password  String
+  firstName String?
+  lastname  String?
+  role      Role        @default(USER)
+  Card      CardModel[]
+}
+
+model CardModel {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  title       String
+  img         String
+  description String
+  author      UserModel @relation(fields: [authorId], references: [id])
+  authorId    Int
+  status      Status
+}
+
+enum Status {
+  ACTIVE
+  MODERATION
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPERADMIN
+}
