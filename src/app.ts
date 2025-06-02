@@ -7,6 +7,7 @@ import { setErrorHandlerPlugin } from './plugins/_error-handler';
 import { cardRoute } from './modules/card/cards.route';
 import { awilixPlugin } from './plugins/awilix';
 import { databaseConnecting } from './plugins/database';
+import { userRoute } from './modules/user/user.route';
 
 const app: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypeProvider>();
 
@@ -24,7 +25,8 @@ app.setErrorHandler((err, req, reply) => {
 });
 
 // Регистрация роутов
-await app.register(cardRoute);
+await app.register(cardRoute, { prefix: 'api/cards' });
+await app.register(userRoute, { prefix: 'api/users' });
 
 // Root rout
 app.get('/', (req, reply) => {

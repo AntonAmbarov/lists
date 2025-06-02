@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify"
-import { CardSchema } from "./types/cards.schema";
-import { ICardService } from './types/cards.service.interface';
-import { CardDTO } from "./types/cards.schema";
+import { CardSchema } from "./cards.schema";
+import { ICardService } from './cards.service.interface';
+import { CardDTO } from "./cards.schema";
 import { CardModel } from "@prisma/client";
 
 export const cardRoute = async (app: FastifyInstance, opts: FastifyPluginOptions) => {

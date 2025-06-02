@@ -1,7 +1,7 @@
-import { ICardService } from "./types/cards.service.interface";
-import { ICardRepostory } from "./types/cards.repository.intrerface";
+import { ICardService } from "./cards.service.interface";
+import { ICardRepostory } from "./cards.repository.intrerface";
 import { CardModel } from "@prisma/client";
-import { CardDTO } from "./types/cards.schema";
+import { CardDTO } from "./cards.schema";
 
 export class CardService implements ICardService {
     private cardRepository: ICardRepostory;

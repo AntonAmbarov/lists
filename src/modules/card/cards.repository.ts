@@ -1,5 +1,5 @@
-import { ICardRepostory } from "./types/cards.repository.intrerface";
-import { CardDTO } from "./types/cards.schema";
+import { ICardRepostory } from "./cards.repository.intrerface";
+import { CardDTO } from "./cards.schema";
 import { IPrismaService } from '../database/prisma.service.interface';
 import { CardModel } from "@prisma/client";
 
@@ -16,7 +16,7 @@ export class CardRepository implements ICardRepostory {
                 title: 'Первая карточка',
                 img: '/img/1.jpg',
                 description: 'Детальное описание на несколько строк',
-                // authorId: 1,
+                authorId: 1,
                 status: 'MODERATION'
             }
         });

@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
 import fastifyEnv from '@fastify/env';
-import { envSchema } from '../schemas';
+import { envSchema } from '../shared/schemas/env.schema';
 
 export default fp(
     async function configLoader(app: FastifyInstance, _opts: any) {
