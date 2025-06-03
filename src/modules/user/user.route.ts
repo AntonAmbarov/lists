@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyPluginOptions, FastifyRequest } from "fastify";
-import { CreateUserInput, CreateUserInputSchema, CreateUserResponseSchema, LoginUserInput, LoginUserInputSchema, LoginUserResponseSchema } from "./users.schema";
+import { CreateUserInput, CreateUserInputSchema, CreateUserResponseSchema, LoginUserInput, LoginUserInputSchema, LoginUserResponseSchema } from "./user.schema";
 import { IUserService } from "./user.service.interface";
 
 export const userRoute = (app: FastifyInstance, opts: FastifyPluginOptions) => {

@@ -1,12 +1,12 @@
 import { fastifyAwilixPlugin, diContainer } from "@fastify/awilix";
 import { asClass, asFunction } from "awilix";
 import { FastifyPluginAsync } from "fastify";
-import { CardRepository } from "../modules/card/cards.repository";
-import { CardService } from "../modules/card/cards.service";
+import { CardRepository } from "../modules/card/card.repository";
+import { CardService } from "../modules/card/card.service";
 import fp from "fastify-plugin";
 import { PrismaService } from "../modules/database/prisma.service";
 import { UserRepository } from "../modules/user/user.repository";
-import { UserService } from "../modules/user/users.service";
+import { UserService } from "../modules/user/user.service";
 
 export const awilixPlugin: FastifyPluginAsync = fp(async (app) => {
     app.register(fastifyAwilixPlugin, {

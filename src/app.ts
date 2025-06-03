@@ -31,7 +31,7 @@ await app.register(userRoute, { prefix: 'api/users' });
 // Root rout
 app.get('/', (req, reply) => {
   reply.status(200).send({ message: 'Привет. Все ОК!' })
-})
+});
 
 // Старт сервера
 const start = async () => {
@@ -39,7 +39,7 @@ const start = async () => {
     await app.listen({
       port: app.config?.port,
     });
-    app.log.info('Сервер запущен')
+    app.log.info('Сервер запущен');
   } catch (err) {
     app.log.error(err);
     process.exit(1);

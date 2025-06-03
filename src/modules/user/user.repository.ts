@@ -1,6 +1,6 @@
 import { Prisma, UserModel } from "@prisma/client";
 import { IUserRepository } from "./user.repository.interface";
-import { CreateUserInput } from "./users.schema";
+import { CreateUserInput } from "./user.schema";
 import { IPrismaService } from "../database/prisma.service.interface";
 
 export class UserRepository implements IUserRepository {

@@ -2,7 +2,7 @@ import { Prisma, UserModel } from "@prisma/client";
 import { getHashPassword } from "../../shared/utilits/hashedPassword";
 import { IUserRepository } from "./user.repository.interface";
 import { IUserService } from "./user.service.interface";
-import { CreateUserInput, CreateUserResponse, LoginUserInput } from "./users.schema";
+import { CreateUserInput, CreateUserResponse, LoginUserInput } from "./user.schema";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Role } from "../../shared/types/role";

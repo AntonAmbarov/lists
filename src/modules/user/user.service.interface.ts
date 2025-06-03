@@ -1,5 +1,5 @@
 import { UserModel } from "@prisma/client";
-import { CreateUserInput, CreateUserResponse, LoginUserInput } from "./users.schema"
+import { CreateUserInput, CreateUserResponse, LoginUserInput } from "./user.schema"
 import { Role } from "../../shared/types/role";
 
 export interface IUserService {
