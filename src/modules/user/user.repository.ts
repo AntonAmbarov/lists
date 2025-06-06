@@ -11,8 +11,6 @@ export class UserRepository implements IUserRepository {
     }
 
     create(input: CreateUserInput): Promise<UserModel> {
-        console.log('Выполняем repository: create')
-
         const data: Prisma.UserModelCreateInput = {
             username: input.username,
             password: input.password,

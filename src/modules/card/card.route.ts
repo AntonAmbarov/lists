@@ -15,15 +15,10 @@ export const cardRoute = async (app: FastifyInstance, opts: FastifyPluginOptions
             }
         }
     }, async (req: FastifyRequest<{ Body: CreateCardInput }>, reply) => {
-        try {
-            const data = req.body;
-            app.log.info(data); // log
-            await service.addCard(data);
-            reply.code(201).send(data);
-        } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
-            reply.code(400).send({ error: errorMessage });
-        }
+        const data = req.body;
+        app.log.info(data); // log
+        await service.addCard(data);
+        reply.code(201).send(data);
     });
 
     app.get('/', {

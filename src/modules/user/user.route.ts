@@ -13,15 +13,10 @@ export const userRoute = (app: FastifyInstance, opts: FastifyPluginOptions) => {
             }
         }
     }, async (req: FastifyRequest<{ Body: CreateUserInput }>, reply) => {
-        try {
-            const data = req.body;
-            const user = await service.createUser(data);
+        const data = req.body;
+        const user = await service.createUser(data);
 
-            reply.code(201).send(user)
-        } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
-            reply.code(400).send({ error: errorMessage });
-        }
+        reply.code(201).send(user)
     });
 
     app.post('/login', {
@@ -32,14 +27,9 @@ export const userRoute = (app: FastifyInstance, opts: FastifyPluginOptions) => {
             }
         }
     }, async (req: FastifyRequest<{ Body: LoginUserInput }>, reply) => {
-        try {
-            const { email, password } = req.body;
-            const userData = await service.login({ email, password });
+        const { email, password } = req.body;
+        const userData = await service.login({ email, password });
 
-            reply.code(200).send(userData);
-        } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
-            reply.code(401).send({ error: errorMessage });
-        }
+        reply.code(200).send(userData);
     })
 }
