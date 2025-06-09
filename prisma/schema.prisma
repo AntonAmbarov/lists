@@ -33,17 +33,18 @@ model ProfileModel {
 }
 
 model CardModel {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  title       String
-  img         String?
-  description String?
-  author      UserModel @relation(fields: [authorId], references: [id])
-  authorId    Int
-  status      Status
-  externalId  String?
+  id             Int              @id @default(autoincrement())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  title          String
+  img            String?
+  description    String?
+  author         UserModel        @relation(fields: [authorId], references: [id])
+  authorId       Int
+  status         Status
+  externalId     String?
   // metadata    String[]
+  ListCardsModel ListCardsModel[]
 }
 
 model CategoryModel {
@@ -55,17 +56,28 @@ model CategoryModel {
 }
 
 model ListModel {
-  id          Int           @id @default(autoincrement())
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  title       String
-  img         String?
-  description String?
-  author      UserModel     @relation(fields: [authorId], references: [id])
-  authorId    Int
-  category    CategoryModel @relation(fields: [categoryId], references: [id])
-  categoryId  Int
-  status      Status
+  id             Int              @id @default(autoincrement())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  title          String
+  img            String?
+  description    String?
+  author         UserModel        @relation(fields: [authorId], references: [id])
+  authorId       Int
+  category       CategoryModel    @relation(fields: [categoryId], references: [id])
+  categoryId     Int
+  status         Status
+  ListCardsModel ListCardsModel[]
+}
+
+model ListCardsModel {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  list      ListModel @relation(fields: [listId], references: [id])
+  listId    Int
+  card      CardModel @relation(fields: [cardId], references: [id])
+  cardId    Int
 }
 
 model VoteModel {
