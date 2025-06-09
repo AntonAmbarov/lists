@@ -1,4 +1,4 @@
-import { Type } from "@sinclair/typebox";
+import { Type, Static } from "@sinclair/typebox";
 import { STATUS } from "../../shared/constants/constants";
 
 const id = Type.Number({ minimum: 1 });
@@ -26,3 +26,7 @@ export const GetListsResponseSchema = Type.Array(Type.Object({
     id,
     ...ListSchema.properties
 }));
+
+export type CreateListInput = Static<typeof CreateListInputSchema>;
+
+export type CreateListResponse = Static<typeof CreateListResponseSchema>;
