@@ -20,12 +20,8 @@ export class CardRepository implements ICardRepostory {
             externalId: inputData.externalId
         }
 
-        try {
-            const response = await this.prisma.client.cardModel.create({ data });
-            return response;
-        } catch (error) {
-            throw error;
-        }
+        const response = await this.prisma.client.cardModel.create({ data });
+        return response;
     };
 
     async getAll(): Promise<Array<CardModel>> {

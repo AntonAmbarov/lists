@@ -7,7 +7,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Role } from "../../shared/types/role";
 import { ERRORS } from "../errors/error.helper";
-import { isLiteral } from "../../shared/utilits/isLiteral";
 import { ROLE } from "../../shared/constants/constants";
 
 export class UserService implements IUserService {
@@ -52,7 +51,7 @@ export class UserService implements IUserService {
 
         // нужно сделать проверку роли
         // if (ROLE.includes(role as Role)) {
-        //     throw ERRORS.userCredError;
+        //     throw ERRORS.userCredError;k
         // }
 
         return { token, role };

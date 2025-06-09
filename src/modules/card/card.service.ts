@@ -15,11 +15,7 @@ export class CardService implements ICardService {
     }
 
     async addCard(inputData: CreateCardInput): Promise<CardModel> {
-        try {
-            const response = await this.cardRepository.create(inputData);
-            return response;
-        } catch (error) {
-            throw error;
-        }
+        const response = await this.cardRepository.create(inputData);
+        return response;
     }
 }
