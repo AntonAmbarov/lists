@@ -192,5 +192,6 @@ export const ERRORS = {
     invalidRequest: new AppError('Недопустимые данные запроса', 400, 'INVALID_REQUEST'),
     internalServerError: new AppError('Ошибка сервера', 500, 'INTERNAL_SERVER_ERROR'),
     unauthorizedAccess: new AppError('Доступ запрещен', 401, 'UNAUTHORIZED_ACCESS'),
-    wrongPassword: new AppError('Пароль неверный', 401, 'WRONG_PASSWORD')
+    wrongPassword: new AppError('Пароль неверный', 401, 'WRONG_PASSWORD'),
+    listNotExists: new AppError('Списка не существует', 400, 'LIST_NOT_EXISTS'),
 }

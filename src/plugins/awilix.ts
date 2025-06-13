@@ -7,6 +7,8 @@ import fp from "fastify-plugin";
 import { PrismaService } from "../modules/database/prisma.service";
 import { UserRepository } from "../modules/user/user.repository";
 import { UserService } from "../modules/user/user.service";
+import { ListService } from "../modules/list/list.service";
+import { ListRepository } from "../modules/list/list.repository";
 
 export const awilixPlugin: FastifyPluginAsync = fp(async (app) => {
     app.register(fastifyAwilixPlugin, {
@@ -21,6 +23,8 @@ export const awilixPlugin: FastifyPluginAsync = fp(async (app) => {
         cardService: asClass(CardService).singleton(),
         userRepository: asClass(UserRepository).singleton(),
         userService: asClass(UserService).singleton(),
+        listService: asClass(ListService).singleton(),
+        listRepository: asClass(ListRepository).singleton(),
         log: asFunction(() => app.log).singleton(),
     });
 });

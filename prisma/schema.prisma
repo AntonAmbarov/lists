@@ -33,44 +33,44 @@ model ProfileModel {
 }
 
 model CardModel {
-  id             Int              @id @default(autoincrement())
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  id             Int               @id @default(autoincrement())
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
   title          String
   img            String?
   description    String?
-  author         UserModel        @relation(fields: [authorId], references: [id])
+  author         UserModel         @relation(fields: [authorId], references: [id])
   authorId       Int
   status         Status
   externalId     String?
   // metadata    String[]
-  ListCardsModel ListCardsModel[]
+  ListCardsModel ListsCardsModel[]
 }
 
 model CategoryModel {
-  id        Int         @id @default(autoincrement())
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  name      String      @unique
-  ListModel ListModel[]
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique
+  // ListModel ListModel[]
 }
 
 model ListModel {
-  id             Int              @id @default(autoincrement())
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  id             Int               @id @default(autoincrement())
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
   title          String
   img            String?
   description    String?
-  author         UserModel        @relation(fields: [authorId], references: [id])
+  author         UserModel         @relation(fields: [authorId], references: [id])
   authorId       Int
-  category       CategoryModel    @relation(fields: [categoryId], references: [id])
-  categoryId     Int
+  // category       CategoryModel     @relation(fields: [categoryId], references: [id])
+  // categoryId     Int
   status         Status
-  ListCardsModel ListCardsModel[]
+  ListCardsModel ListsCardsModel[]
 }
 
-model ListCardsModel {
+model ListsCardsModel {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

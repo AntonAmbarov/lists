@@ -1,22 +1,33 @@
-import { ListModel } from "@prisma/client";
+import { ListsCardsModel, ListModel, CardModel } from "@prisma/client";
 import { IListRepository } from "./list.repository.interface";
 import { CreateListInput } from "./list.schema";
 import { IListService } from "./list.service.interface";
+import { ERRORS } from "../errors/error.helper";
 
 export class ListService implements IListService {
-    constructor(private listRepository: IListRepository) {
+    private listRepository: IListRepository;
+
+    constructor({ listRepository }: { listRepository: IListRepository }) {
         this.listRepository = listRepository;
     };
 
     async addList(input: CreateListInput): Promise<ListModel> {
-        return await this.listRepository.create(input);
+        const res = await this.listRepository.create(input);
+        return res;
     };
 
-    getList(listId: number): Promise<Array<ListModel>> {
-        throw new Error("Method not implemented.");
+    async getList(listId: number): Promise<ListModel> {
+        const card = await this.listRepository.findOne(listId);
+
+        if (!card) {
+            throw ERRORS.listNotExists;
+        }
+
+        return card;
     };
 
-    getLists(categoryId: number | null): Promise<Array<ListModel>> {
-        throw new Error("Method not implemented.");
-    };
+    async getCardsByList(listId: number): Promise<Array<ListsCardsModel & { card: CardModel }>> {
+        const cards = await this.listRepository.findCardsByList(listId);
+        return cards;
+    }
 }
