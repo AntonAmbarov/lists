@@ -194,4 +194,5 @@ export const ERRORS = {
     unauthorizedAccess: new AppError('Доступ запрещен', 401, 'UNAUTHORIZED_ACCESS'),
     wrongPassword: new AppError('Пароль неверный', 401, 'WRONG_PASSWORD'),
     listNotExists: new AppError('Списка не существует', 400, 'LIST_NOT_EXISTS'),
+    noDataFound: new AppError('Данные не найдены', 400, 'NO_DATA_FOUND'),
 }

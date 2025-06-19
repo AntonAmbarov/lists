@@ -18,6 +18,7 @@ model UserModel {
   cards     CardModel[]
   lists     ListModel[]
   profile   ProfileModel?
+  VoteModel VoteModel[]
 }
 
 model ProfileModel {
@@ -71,19 +72,36 @@ model ListModel {
 }
 
 model ListsCardsModel {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  list      ListModel @relation(fields: [listId], references: [id])
-  listId    Int
-  card      CardModel @relation(fields: [cardId], references: [id])
-  cardId    Int
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  list        ListModel     @relation(fields: [listId], references: [id])
+  listId      Int
+  card        CardModel     @relation(fields: [cardId], references: [id])
+  cardId      Int
+  VoteModel   VoteModel[]
+  RatingModel RatingModel[]
+
+  @@unique([listId, cardId])
+  @@index([listId, cardId])
 }
 
 model VoteModel {
-  id       Int       @id @default(autoincrement())
-  createAt DateTime  @default(now())
-  value    ValueVote
+  id               Int             @id @default(autoincrement())
+  createAt         DateTime        @default(now())
+  cardListRelation ListsCardsModel @relation(fields: [listsCardId], references: [id])
+  listsCardId      Int
+  user             UserModel       @relation(fields: [userId], references: [id])
+  userId           Int
+  value            ValueVote
+}
+
+model RatingModel {
+  id               Int             @id @default(autoincrement())
+  createAt         DateTime        @default(now())
+  value            Float
+  cardListRelation ListsCardsModel @relation(fields: [listsCardId], references: [id])
+  listsCardId      Int
 }
 
 enum Status {

@@ -17,17 +17,21 @@ export class ListService implements IListService {
     };
 
     async getList(listId: number): Promise<ListModel> {
-        const card = await this.listRepository.findOne(listId);
+        const list = await this.listRepository.findOne(listId);
 
-        if (!card) {
+        if (!list) {
             throw ERRORS.listNotExists;
         }
 
-        return card;
+        return list;
     };
 
-    async getCardsByList(listId: number): Promise<Array<ListsCardsModel & { card: CardModel }>> {
+    async getCardsByList(listId: number): Promise<Array<ListsCardsModel>> {
         const cards = await this.listRepository.findCardsByList(listId);
         return cards;
+    };
+
+    async addCardToList(listId: number, cardId: number): Promise<ListsCardsModel> {
+        return await this.listRepository.createListCardRelation(listId, cardId);
     }
 }

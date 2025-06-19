@@ -15,7 +15,7 @@ export class ListRepository implements IListRepository {
             title: input.title,
             img: input.img || null,
             description: input.description || null,
-            author: { connect: { id: input.author } },
+            author: { connect: { id: input.authorId } },
             // category: { connect: { id: input.category } },
             status: input.status
         };
@@ -24,14 +24,14 @@ export class ListRepository implements IListRepository {
         return resp;
     }
 
-    findOne(listId: number): Promise<ListModel | null> {
-        return this.prisma.client.listModel.findUnique({
+    async findOne(listId: number): Promise<ListModel | null> {
+        return await this.prisma.client.listModel.findUnique({
             where: { id: listId },
         })
     }
 
-    findCardsByList(listId: number): Promise<Array<ListsCardsModel & { card: CardModel }>> {
-        return this.prisma.client.listsCardsModel.findMany({
+    async findCardsByList(listId: number): Promise<Array<ListsCardsModel & { card: CardModel }>> {
+        return await this.prisma.client.listsCardsModel.findMany({
             where: {
                 listId
             },
@@ -39,5 +39,11 @@ export class ListRepository implements IListRepository {
                 card: true,
             }
         })
+    }
+
+    async createListCardRelation(listId: number, cardId: number): Promise<ListsCardsModel> {
+        const data = { listId, cardId };
+
+        return await this.prisma.client.listsCardsModel.create({data});
     }
 }

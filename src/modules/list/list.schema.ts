@@ -11,7 +11,7 @@ export const ListSchema = Type.Object({
     title: Type.String(),
     img: Type.Optional(Type.String()),
     description: Type.Optional(Type.String()),
-    author: Type.Number(),
+    authorId: Type.Number(),
     // category: Type.Number(),
     status: Type.Union(STATUS.map(s => Type.Literal(s)))
 });
@@ -62,10 +62,23 @@ export const GetCardsByListIdResponseSchema = Type.Object({
     }))
 });
 
+export const AddCardToListParamsSchema = Type.Object({
+    listId: Type.Number({minimum: 1}),
+    cardId: Type.Number({minimum: 1}),
+});
+
+export const AddCardToListResponseSchema = Type.Object({
+    id: Type.Number({minimum: 1})
+})
+
 export type CreateListInput = Static<typeof CreateListInputSchema>;
 
 export type CreateListResponse = Static<typeof CreateListResponseSchema>;
 
 export type GetListByIdResponse = Static<typeof GetListByIdResponseSchema>;
 
+export type GetListByIdParams = Static<typeof GetListByIdParamsSchema>;
+
 export type GetCardsByListIdParams = Static<typeof GetCardsByListIdParamsSchema>;
+
+export type AddCardToListParams = Static<typeof AddCardToListParamsSchema>;

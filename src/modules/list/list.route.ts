@@ -1,12 +1,13 @@
 import { FastifyInstance, FastifyPluginOptions, FastifyReply, FastifyRequest } from "fastify";
-import { CreateListInput, CreateListInputSchema, CreateListResponseSchema, GetCardsByListIdParams, GetCardsByListIdParamsSchema, GetCardsByListIdResponseSchema, GetListByIdParamsSchema, GetListByIdResponseSchema } from "./list.schema";
+import { AddCardToListParams, AddCardToListParamsSchema, AddCardToListResponseSchema, CreateListInput, CreateListInputSchema, CreateListResponseSchema, GetCardsByListIdParams, GetCardsByListIdParamsSchema, GetCardsByListIdResponseSchema, GetListByIdParams, GetListByIdParamsSchema, GetListByIdResponseSchema } from "./list.schema";
 import { IListService } from "./list.service.interface";
-import { ListModel } from "@prisma/client";
+import { ListModel, ListsCardsModel } from "@prisma/client";
 
 export const listRoute = (app: FastifyInstance, opts: FastifyPluginOptions) => {
 
     const service: IListService = app.diContainer.resolve('listService');
 
+    // создание нового списка
     app.route({
         method: 'POST',
         url: '/',
@@ -24,6 +25,7 @@ export const listRoute = (app: FastifyInstance, opts: FastifyPluginOptions) => {
         }
     })
 
+    // запрос данных списка без карточек
     app.route({
         method: 'GET',
         url: '/:id',
@@ -33,17 +35,19 @@ export const listRoute = (app: FastifyInstance, opts: FastifyPluginOptions) => {
                 200: GetListByIdResponseSchema
             }
         },
-        handler: async (req: FastifyRequest, reply): Promise<void> => {
-            const id: number = Number(req.id);
+        handler: async (req: FastifyRequest<{Params: GetListByIdParams}>, reply): Promise<void> => {
+            app.log.info(req.params);
+            const id: number = Number(req.params.id);
             const res = await service.getList(id);
 
             reply.code(200).send(res);
         }
     });
 
+    // запрос карточек для списка
     app.route({
         method: 'GET',
-        url: '/cards/:id',
+        url: '/:id/cards/',
         // schema: {
         //     params: GetCardsByListIdParamsSchema,
         //     response: {
@@ -51,19 +55,30 @@ export const listRoute = (app: FastifyInstance, opts: FastifyPluginOptions) => {
         //     }
         // },
         handler: async (req: FastifyRequest<{ Params: GetCardsByListIdParams }>, reply): Promise<void> => {
-            const res = await service.getCardsByList(req.params.id);
+            const id = Number(req.params.id)
+            const res = await service.getCardsByList(id);
             reply.code(200).send(res);
         }
     });
 
+    // добавление карточки в список
     app.route({
         method: 'POST',
-        url: '/cards',
+        url: '/:listId/cards/:cardId',
         schema: {
-
+            params: AddCardToListParamsSchema,
+            response: {
+                201: AddCardToListResponseSchema
+            }
         },
-        handler: async (req: FastifyRequest, reply): Promise<void> => {
-            // добавление карточки к списку
+        handler: async (req: FastifyRequest<{Params: AddCardToListParams}>, reply): Promise<ListsCardsModel> => {
+            const {listId, cardId} = req.params;
+            const res = await service.addCardToList(listId, cardId);
+            reply.code(201).send(res);
         }
     })
+
+    // удаление карточки из списка
+
+    // обновление списка
 }
