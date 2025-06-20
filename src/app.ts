@@ -1,7 +1,7 @@
 import Fastify, { FastifyInstance } from 'fastify';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import config from './configs/config';
-import { serverOpts } from './configs/serverOptions'
+import { serverOpts } from './configs/serverOptions';
 import { corsPlugin } from './plugins/cors';
 import { errorHandlerPlugin } from './plugins/errorHandlerPlugin';
 import { cardRoute } from './modules/card/card.route';
@@ -28,20 +28,20 @@ await app.register(listRoute, { prefix: 'api/lists' });
 
 // Root rout
 app.get('/', (req, reply) => {
-  reply.status(200).send({ message: 'Привет. Все ОК!' })
+	reply.status(200).send({ message: 'Привет. Все ОК!' });
 });
 
 // Старт сервера
 const start = async () => {
-  try {
-    await app.listen({
-      port: app.config?.port,
-    });
-    app.log.info('Сервер запущен');
-  } catch (err) {
-    app.log.error(err);
-    process.exit(1);
-  }
+	try {
+		await app.listen({
+			port: app.config?.port,
+		});
+		app.log.info('Сервер запущен');
+	} catch (err) {
+		app.log.error(err);
+		process.exit(1);
+	}
 };
 
 start();

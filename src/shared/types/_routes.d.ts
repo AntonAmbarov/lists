@@ -1,8 +1,8 @@
-import { FastifyInstance, FastifyPluginOptions } from "fastify"
+import { FastifyInstance, FastifyPluginOptions } from 'fastify';
 
 export type routeWrapper = (
-    app: FastifyInstance,
-    opts?: FastifyPluginOptions & {
-        prefix: string
-    }
+	app: FastifyInstance,
+	opts?: FastifyPluginOptions & {
+		prefix: string;
+	},
 ) => void;

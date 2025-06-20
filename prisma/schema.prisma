@@ -89,19 +89,22 @@ model ListsCardsModel {
 model VoteModel {
   id               Int             @id @default(autoincrement())
   createAt         DateTime        @default(now())
-  cardListRelation ListsCardsModel @relation(fields: [listsCardId], references: [id])
-  listsCardId      Int
-  user             UserModel       @relation(fields: [userId], references: [id])
-  userId           Int
-  value            ValueVote
+  cardListRelation ListsCardsModel @relation(fields: [listsCardsId], references: [id])
+  listsCardsId     Int
+  author           UserModel       @relation(fields: [authorId], references: [id])
+  authorId         Int
+  value            Int
+
+  @@index([listsCardsId])
 }
 
 model RatingModel {
   id               Int             @id @default(autoincrement())
   createAt         DateTime        @default(now())
+  updateAt         DateTime        @updatedAt
   value            Float
-  cardListRelation ListsCardsModel @relation(fields: [listsCardId], references: [id])
-  listsCardId      Int
+  cardListRelation ListsCardsModel @relation(fields: [listsCardsId], references: [id])
+  listsCardsId     Int
 }
 
 enum Status {
@@ -114,9 +117,4 @@ enum Role {
   USER
   ADMIN
   SUPERADMIN
-}
-
-enum ValueVote {
-  UP
-  DOWN
 }

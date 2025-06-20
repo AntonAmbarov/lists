@@ -1,44 +1,48 @@
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
-import prettier from 'eslint-plugin-prettier';
-import prettierConfig from 'eslint-config-prettier';
+import { defineConfig } from 'eslint/config';
+import eslintPlugin from '@typescript-eslint/eslint-plugin';
+import parser from '@typescript-eslint/parser';
+import prettierPlugin from 'eslint-plugin-prettier';
+import globals from 'globals';
 
-export default [
-    {
-        files: ['**/*.js', '**/*.ts', '**/*.tsx'],
-        languageOptions: {
-            parser: tsParser,
-            parserOptions: {
-                project: './tsconfig.json',
-                tsconfigRootDir: import.meta.dirname,
-            },
-        },
-        plugins: {
-            '@typescript-eslint': typescriptEslint,
-            prettier,
-        },
-        files: ['**/*.js'],
-        ignores: ['eslint.config.js'],
-        rules: {
-            ...typescriptEslint.configs['recommended'].rules,
-            ...prettierConfig.rules,
-            '@typescript-eslint/ban-types': 'off',
-            '@typescript-eslint/no-unused-vars': 'off',
-            '@typescript-eslint/no-explicit-any': 'off',
-            '@typescript-eslint/explicit-function-return-type': 'warn',
-            'semi': ['error', 'always'],
-            'prettier/prettier': [
-                'error', // Или 'warn', если хотите предупреждения вместо ошибок
-                {
-                    singleQuote: true,
-                    useTabs: true,
-                    semi: true,
-                    trailingComma: 'all',
-                    bracketSpacing: true,
-                    printWidth: 100,
-                    endOfLine: 'auto',
-                },
-            ],
-        },
-    },
-];
+export default defineConfig([
+	{
+		files: ['src/**/*.ts'],
+		languageOptions: {
+			parser,
+			parserOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module',
+				project: './tsconfig.json',
+			},
+			globals: {
+				...globals.node,
+				...globals.es2021,
+			},
+		},
+		plugins: {
+			'@typescript-eslint': eslintPlugin,
+			prettier: prettierPlugin,
+		},
+		rules: {
+			'@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+			'@typescript-eslint/explicit-function-return-type': 'warn',
+			'@typescript-eslint/no-explicit-any': 'warn',
+			'@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
+			'@typescript-eslint/no-floating-promises': 'error',
+			'@typescript-eslint/strict-boolean-expressions': 'warn',
+			'@typescript-eslint/prefer-nullish-coalescing': 'warn',
+			'@typescript-eslint/prefer-optional-chain': 'warn',
+			'@typescript-eslint/member-ordering': 'warn',
+			'@typescript-eslint/naming-convention': [
+				'warn',
+				{
+					selector: 'interface',
+					format: ['PascalCase'],
+					custom: { regex: '^I[A-Z]', match: true },
+				},
+			],
+			'@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }],
+			'prettier/prettier': 'error',
+		},
+	},
+]);

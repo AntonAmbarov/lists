@@ -8,7 +8,7 @@
 // //         database: PrismaClient,
 // //         cardRepository: ICardRepostory,
 // //         cardService: ICardService,
-// //         log: 
+// //         log:
 // //     }
 // //     // interface RequestCradle {}
 // // };

@@ -1,3 +1,3 @@
 import { STATUS } from '../constants/constants';
 
-export type Status = typeof STATUS[number];
+export type Status = (typeof STATUS)[number];

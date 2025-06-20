@@ -1,3 +1,3 @@
-import { ROLE } from "../constants/constants";
+import { ROLE } from '../constants/constants';
 
-export type Role = typeof ROLE[number];
+export type Role = (typeof ROLE)[number];

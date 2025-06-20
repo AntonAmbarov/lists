@@ -1,37 +1,37 @@
-import { ListsCardsModel, ListModel, CardModel } from "@prisma/client";
-import { IListRepository } from "./list.repository.interface";
-import { CreateListInput } from "./list.schema";
-import { IListService } from "./list.service.interface";
-import { ERRORS } from "../errors/error.helper";
+import { ListsCardsModel, ListModel, CardModel } from '@prisma/client';
+import { IListRepository } from './list.repository.interface';
+import { CreateListInput } from './list.schema';
+import { IListService } from './list.service.interface';
+import { ERRORS } from '../errors/error.helper';
 
 export class ListService implements IListService {
-    private listRepository: IListRepository;
+	private listRepository: IListRepository;
 
-    constructor({ listRepository }: { listRepository: IListRepository }) {
-        this.listRepository = listRepository;
-    };
+	constructor({ listRepository }: { listRepository: IListRepository }) {
+		this.listRepository = listRepository;
+	}
 
-    async addList(input: CreateListInput): Promise<ListModel> {
-        const res = await this.listRepository.create(input);
-        return res;
-    };
+	async addList(input: CreateListInput): Promise<ListModel> {
+		const res = await this.listRepository.create(input);
+		return res;
+	}
 
-    async getList(listId: number): Promise<ListModel> {
-        const list = await this.listRepository.findOne(listId);
+	async getList(listId: number): Promise<ListModel> {
+		const list = await this.listRepository.findOne(listId);
 
-        if (!list) {
-            throw ERRORS.listNotExists;
-        }
+		if (!list) {
+			throw ERRORS.listNotExists;
+		}
 
-        return list;
-    };
+		return list;
+	}
 
-    async getCardsByList(listId: number): Promise<Array<ListsCardsModel>> {
-        const cards = await this.listRepository.findCardsByList(listId);
-        return cards;
-    };
+	async getCardsByList(listId: number): Promise<Array<ListsCardsModel>> {
+		const cards = await this.listRepository.findCardsByList(listId);
+		return cards;
+	}
 
-    async addCardToList(listId: number, cardId: number): Promise<ListsCardsModel> {
-        return await this.listRepository.createListCardRelation(listId, cardId);
-    }
+	async addCardToList(listId: number, cardId: number): Promise<ListsCardsModel> {
+		return await this.listRepository.createListCardRelation(listId, cardId);
+	}
 }
