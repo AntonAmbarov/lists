@@ -9,6 +9,8 @@ import { UserRepository } from '../modules/user/user.repository';
 import { UserService } from '../modules/user/user.service';
 import { ListService } from '../modules/list/list.service';
 import { ListRepository } from '../modules/list/list.repository';
+import { VoteRepository } from '../modules/vote/vote.repository';
+import { VoteService } from '../modules/vote/vote.service';
 
 export const awilixPlugin: FastifyPluginAsync = fp(async (app) => {
 	app.register(fastifyAwilixPlugin, {
@@ -25,6 +27,8 @@ export const awilixPlugin: FastifyPluginAsync = fp(async (app) => {
 		userService: asClass(UserService).singleton(),
 		listService: asClass(ListService).singleton(),
 		listRepository: asClass(ListRepository).singleton(),
+		voteService: asClass(VoteService).singleton(),
+		voteRepository: asClass(VoteRepository).singleton(),
 		log: asFunction(() => app.log).singleton(),
 	});
 });

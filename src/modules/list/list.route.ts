@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginOptions, FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyInstance, FastifyPluginOptions, FastifyRequest } from 'fastify';
 import {
 	AddCardToListParams,
 	AddCardToListParamsSchema,
@@ -7,16 +7,14 @@ import {
 	CreateListInputSchema,
 	CreateListResponseSchema,
 	GetCardsByListIdParams,
-	GetCardsByListIdParamsSchema,
-	GetCardsByListIdResponseSchema,
 	GetListByIdParams,
 	GetListByIdParamsSchema,
 	GetListByIdResponseSchema,
 } from './list.schema';
 import { IListService } from './list.service.interface';
-import { ListModel, ListsCardsModel } from '@prisma/client';
+import { ListModel, CardToListModel } from '@prisma/client';
 
-export const listRoute = (app: FastifyInstance, opts: FastifyPluginOptions) => {
+export const listRoute = (app: FastifyInstance, _opts: FastifyPluginOptions): void => {
 	const service: IListService = app.diContainer.resolve('listService');
 
 	// создание нового списка
@@ -86,12 +84,9 @@ export const listRoute = (app: FastifyInstance, opts: FastifyPluginOptions) => {
 				201: AddCardToListResponseSchema,
 			},
 		},
-		handler: async (
-			req: FastifyRequest<{ Params: AddCardToListParams }>,
-			reply,
-		): Promise<ListsCardsModel> => {
+		handler: async (req: FastifyRequest<{ Params: AddCardToListParams }>, reply): Promise<void> => {
 			const { listId, cardId } = req.params;
-			const res = await service.addCardToList(listId, cardId);
+			const res: CardToListModel = await service.addCardToList(listId, cardId);
 			reply.code(201).send(res);
 		},
 	});

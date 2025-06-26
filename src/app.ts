@@ -9,6 +9,7 @@ import { awilixPlugin } from './plugins/awilix';
 import { databaseConnecting } from './plugins/database';
 import { userRoute } from './modules/user/user.route';
 import { listRoute } from './modules/list/list.route';
+import { voteRoute } from './modules/vote/vote.route';
 
 const app: FastifyInstance = Fastify(serverOpts).withTypeProvider<TypeBoxTypeProvider>();
 
@@ -25,6 +26,7 @@ await app.register(errorHandlerPlugin);
 await app.register(cardRoute, { prefix: 'api/cards' });
 await app.register(userRoute, { prefix: 'api/users' });
 await app.register(listRoute, { prefix: 'api/lists' });
+await app.register(voteRoute, { prefix: 'api/votes' });
 
 // Root rout
 app.get('/', (req, reply) => {
@@ -44,4 +46,4 @@ const start = async () => {
 	}
 };
 
-start();
+await start();

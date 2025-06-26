@@ -1,5 +1,4 @@
 import { VoteModel, RatingModel } from '@prisma/client';
-import { Vote } from '../../shared/types/vote';
 import { IPrismaService } from '../database/prisma.service.interface';
 import { IVoteRepository } from './vote.repository.interface';
 
@@ -10,41 +9,40 @@ export class VoteRepository implements IVoteRepository {
 		this.prisma = prisma;
 	}
 
-	async createVote(idRelation: number, value: Vote, author: number): Promise<VoteModel> {
-		const data = {
-			cardListRelation: { connect: { id: idRelation } },
-			author: { connect: { id: author } },
-			value: value,
-		};
-
+	async createVote(data: {
+		cardToListId: number;
+		value: number;
+		authorId: number;
+	}): Promise<VoteModel> {
 		return await this.prisma.client.voteModel.create({ data });
 	}
 
-	async createRating(idRelation: number, value: number): Promise<RatingModel> {
+	async createRating(cardToListId: number, value: number): Promise<RatingModel> {
 		const data = {
-			cardListRelation: { connect: { id: idRelation } },
+			cardToList: { connect: { id: cardToListId } },
 			value: value,
 		};
 
 		return await this.prisma.client.ratingModel.create({ data });
 	}
 
-	async findVotes(idRelation: number): Promise<Array<VoteModel>> {
+	async findVotes(cardToListId: number): Promise<Array<VoteModel>> {
 		return await this.prisma.client.voteModel.findMany({
-			where: { listsCardsId: idRelation },
+			where: { cardToListId: cardToListId },
 		});
 	}
 
-	async findRating(idRelation: number): Promise<RatingModel | null> {
+	async findRating(cardToListId: number): Promise<RatingModel | null> {
 		return await this.prisma.client.ratingModel.findFirst({
-			where: { listsCardsId: idRelation },
+			where: { cardToListId: cardToListId },
 		});
 	}
 
-	async updateRating(id: number, value: number): Promise<RatingModel> {
-		return await this.prisma.client.ratingModel.update({
-			where: { id },
-			data: { value },
+	async upsertRating(cardToListId: number, value: number): Promise<RatingModel> {
+		return await this.prisma.client.ratingModel.upsert({
+			where: { cardToListId: cardToListId },
+			update: { value: value },
+			create: { cardToList: { connect: { id: cardToListId } }, value: value },
 		});
 	}
 }

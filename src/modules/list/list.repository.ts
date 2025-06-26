@@ -1,4 +1,4 @@
-import { ListModel, ListsCardsModel, Prisma, CardModel } from '@prisma/client';
+import { ListModel, CardToListModel, Prisma, CardModel } from '@prisma/client';
 import { IPrismaService } from '../database/prisma.service.interface';
 import { IListRepository } from './list.repository.interface';
 import { CreateListInput } from './list.schema';
@@ -30,8 +30,8 @@ export class ListRepository implements IListRepository {
 		});
 	}
 
-	async findCardsByList(listId: number): Promise<Array<ListsCardsModel & { card: CardModel }>> {
-		return await this.prisma.client.listsCardsModel.findMany({
+	async findCardsByList(listId: number): Promise<Array<CardToListModel & { card: CardModel }>> {
+		return await this.prisma.client.cardToListModel.findMany({
 			where: {
 				listId,
 			},
@@ -41,9 +41,9 @@ export class ListRepository implements IListRepository {
 		});
 	}
 
-	async createListCardRelation(listId: number, cardId: number): Promise<ListsCardsModel> {
+	async createListCardRelation(listId: number, cardId: number): Promise<CardToListModel> {
 		const data = { listId, cardId };
 
-		return await this.prisma.client.listsCardsModel.create({ data });
+		return await this.prisma.client.cardToListModel.create({ data });
 	}
 }

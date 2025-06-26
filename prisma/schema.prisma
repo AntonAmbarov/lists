@@ -34,18 +34,18 @@ model ProfileModel {
 }
 
 model CardModel {
-  id             Int               @id @default(autoincrement())
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
-  title          String
-  img            String?
-  description    String?
-  author         UserModel         @relation(fields: [authorId], references: [id])
-  authorId       Int
-  status         Status
-  externalId     String?
+  id          Int               @id @default(autoincrement())
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  title       String
+  img         String?
+  description String?
+  author      UserModel         @relation(fields: [authorId], references: [id])
+  authorId    Int
+  status      Status
+  externalId  String?
   // metadata    String[]
-  ListCardsModel ListsCardsModel[]
+  cardToList  CardToListModel[]
 }
 
 model CategoryModel {
@@ -57,21 +57,21 @@ model CategoryModel {
 }
 
 model ListModel {
-  id             Int               @id @default(autoincrement())
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
-  title          String
-  img            String?
-  description    String?
-  author         UserModel         @relation(fields: [authorId], references: [id])
-  authorId       Int
+  id          Int               @id @default(autoincrement())
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  title       String
+  img         String?
+  description String?
+  author      UserModel         @relation(fields: [authorId], references: [id])
+  authorId    Int
   // category       CategoryModel     @relation(fields: [categoryId], references: [id])
   // categoryId     Int
-  status         Status
-  ListCardsModel ListsCardsModel[]
+  status      Status
+  cardToList  CardToListModel[]
 }
 
-model ListsCardsModel {
+model CardToListModel {
   id          Int           @id @default(autoincrement())
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -79,32 +79,36 @@ model ListsCardsModel {
   listId      Int
   card        CardModel     @relation(fields: [cardId], references: [id])
   cardId      Int
-  VoteModel   VoteModel[]
-  RatingModel RatingModel[]
+  voteModel   VoteModel[]
+  ratingModel RatingModel[]
 
   @@unique([listId, cardId])
   @@index([listId, cardId])
 }
 
 model VoteModel {
-  id               Int             @id @default(autoincrement())
-  createAt         DateTime        @default(now())
-  cardListRelation ListsCardsModel @relation(fields: [listsCardsId], references: [id])
-  listsCardsId     Int
-  author           UserModel       @relation(fields: [authorId], references: [id])
-  authorId         Int
-  value            Int
+  id           Int             @id @default(autoincrement())
+  createAt     DateTime        @default(now())
+  cardToList   CardToListModel @relation(fields: [cardToListId], references: [id])
+  cardToListId Int
+  author       UserModel       @relation(fields: [authorId], references: [id])
+  authorId     Int
+  value        Int
 
-  @@index([listsCardsId])
+  @@unique([authorId, cardToListId])
+  @@index([cardToListId])
 }
 
 model RatingModel {
-  id               Int             @id @default(autoincrement())
-  createAt         DateTime        @default(now())
-  updateAt         DateTime        @updatedAt
-  value            Float
-  cardListRelation ListsCardsModel @relation(fields: [listsCardsId], references: [id])
-  listsCardsId     Int
+  id           Int             @id @default(autoincrement())
+  createAt     DateTime        @default(now())
+  updateAt     DateTime        @updatedAt
+  value        Float
+  cardToList   CardToListModel @relation(fields: [cardToListId], references: [id])
+  cardToListId Int
+
+  @@unique([cardToListId])
+  @@index([cardToListId])
 }
 
 enum Status {
