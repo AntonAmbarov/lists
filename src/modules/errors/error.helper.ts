@@ -27,7 +27,7 @@ interface PrismaErrorDetails {
 	[key: string]: any;
 }
 
-class AppError extends Error implements AppErrorProps {
+export class AppError extends Error implements AppErrorProps {
 	constructor(
 		readonly message: string,
 		readonly statusCode: number,
