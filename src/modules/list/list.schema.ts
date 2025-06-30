@@ -21,11 +21,6 @@ export const CreateListInputSchema = Type.Object({
 });
 
 export const CreateListResponseSchema = Type.Object({
-	...Type.Omit(ListSchema, ['author']).properties,
-	authorId: Type.Number(),
-});
-
-Type.Object({
 	id: Type.Number({ minimum: 1 }),
 	...ListSchema.properties,
 });
