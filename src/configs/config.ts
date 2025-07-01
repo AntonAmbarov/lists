@@ -4,7 +4,7 @@ import fastifyEnv from '@fastify/env';
 import { envSchema } from '../shared/schemas/env.schema';
 
 export default fp(
-	async function configLoader(app: FastifyInstance, _opts: any) {
+	async function configLoader(app: FastifyInstance, _opts) {
 		try {
 			await app.register(fastifyEnv, {
 				confKey: 'secrets',
@@ -16,7 +16,6 @@ export default fp(
 			});
 
 			app.decorate('config', {
-				dbUrl: app.secrets.DB_URL,
 				port: app.secrets.PORT,
 				nodeEnv: app.secrets.NODE_ENV,
 			});
