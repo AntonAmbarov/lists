@@ -44,6 +44,8 @@ export const userRoute = (app: FastifyInstance, opts: FastifyPluginOptions) => {
 			const { email, password } = req.body;
 			const userData = await service.login({ email, password });
 
+			app.log.info('логируем: ', req.body);
+
 			reply.code(200).send(userData);
 		},
 	);

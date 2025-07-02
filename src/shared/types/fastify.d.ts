@@ -3,14 +3,16 @@ import { FastifyInstance as OriginalFastifyInstance } from 'fastify';
 declare module 'fastify' {
 	interface FastifyInstance extends OriginalFastifyInstance {
 		secrets: {
-			DB_URL: string;
 			PORT: number;
 			NODE_ENV: string;
+			LOG_LEVEL: string;
+			PRIVATE_KEY: string;
+			JWT_SECRET: string;
 		};
 		config: {
-			dbUrl: string;
 			port: number;
 			nodeEnv: string;
 		};
+		verifyJWT: (req: FastifyRequest, reply: FastifyReply) => Promise<void>;
 	}
 }

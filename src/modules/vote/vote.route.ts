@@ -16,7 +16,7 @@ export const voteRoute = (app: FastifyInstance, _opts: FastifyPluginOptions): vo
 		schema: {
 			body: VoteInputSchema,
 			response: {
-				201: RatingResponseSchema,
+				// 201: RatingResponseSchema,
 			},
 		},
 		handler: async (
@@ -36,7 +36,7 @@ export const voteRoute = (app: FastifyInstance, _opts: FastifyPluginOptions): vo
 		schema: {
 			params: RatingParamsSchema,
 			response: {
-				200: RatingResponseSchema,
+				// 200: RatingResponseSchema,
 			},
 		},
 		handler: async (req: FastifyRequest<{ Params: RatingParams }>, reply): Promise<void> => {

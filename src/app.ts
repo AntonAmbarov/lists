@@ -9,6 +9,8 @@ import { userRoute } from './modules/user/user.route';
 import { listRoute } from './modules/list/list.route';
 import { voteRoute } from './modules/vote/vote.route';
 import { jwtPlugin } from './plugins/jwt';
+import { decorators } from './configs/decorator';
+import { auth } from './plugins/auth';
 
 export default async function createApp(): Promise<void> {
 	const app = await createContainer();
@@ -22,6 +24,8 @@ export default async function createApp(): Promise<void> {
 	await app.register(databaseConnecting);
 	await app.register(errorHandlerPlugin);
 	await app.register(jwtPlugin);
+	await app.register(decorators);
+	await app.register(auth);
 
 	// Регистрация роутов
 	await app.register(cardRoute, { prefix: 'api/cards' });

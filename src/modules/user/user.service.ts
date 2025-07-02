@@ -7,13 +7,15 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Role } from '../../shared/types/role';
 import { ERRORS } from '../errors/error.helper';
-import { ROLE } from '../../shared/constants/constants';
+import { FastifyInstance } from 'fastify';
 
 export class UserService implements IUserService {
 	private userRepository: IUserRepository;
+	private app: FastifyInstance;
 
-	constructor({ userRepository }: { userRepository: IUserRepository }) {
+	constructor({ userRepository, app }: { userRepository: IUserRepository; app: FastifyInstance }) {
 		this.userRepository = userRepository;
+		this.app = app;
 	}
 
 	async createUser(input: CreateUserInput): Promise<CreateUserResponse> {
@@ -42,18 +44,15 @@ export class UserService implements IUserService {
 		if (!isCorrectPassword) {
 			throw ERRORS.wrongPassword;
 		}
-		// нужно получать секрет из env.
-		// Для этого нужно использовать библиотеку fastifyEnv и метод getEnv.
-		// Для этого нужно создать зависимость app в контейнере
-		const token = jwt.sign({ email }, 'privateKey', { expiresIn: '10h' });
-		const { role } = findedUser;
+
+		const token = this.app.jwt.sign({ id: findedUser.id, email: findedUser.email });
 
 		// нужно сделать проверку роли
 		// if (ROLE.includes(role as Role)) {
 		//     throw ERRORS.userCredError;k
 		// }
 
-		return { token, role };
+		return { token, role: findedUser.role };
 	}
 
 	async getUserByEmail(email: string): Promise<UserModel | null> {

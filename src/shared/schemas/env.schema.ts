@@ -7,6 +7,7 @@ export const envSchema = Type.Object(
 		DATABASE_URL: Type.String(),
 		LOG_LEVEL: Type.String(),
 		PRIVATE_KEY: Type.String(),
+		JWT_SECRET: Type.String(),
 	},
 	{
 		$id: 'schema:dotenv',
